@@ -1,16 +1,23 @@
-import flask
+# import flask
 
-app = flask.Flask(__name__)
+# app = flask.Flask(__name__)
 
 from flask import render_template
 
-@app.route('/')
-def dashboard():
-    return render_template('dashboard.html')
+from app import models
+import os
 
-@app.route('/items')
-def items():
-    return render_template('forms/item_form.html')
+app = models.create_app(os.environ.get('FLASK_CONFIG') or 'default')
+
+if __name__ == '__main__':
+    app.run(debug=True, host='0.0.0.0', port=5000)
+# @app.route('/')
+# def dashboard():
+#     return render_template('dashboard.html')
+
+# @app.route('/items')
+# def items():
+#     return render_template('forms/item_form.html')
 
 @app.route('/items_list.html')
 def items_list():
