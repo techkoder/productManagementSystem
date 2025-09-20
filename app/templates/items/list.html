@@ -3,13 +3,15 @@
 {% block page_title %}Items Management{% endblock %}
 {% block page_actions %}
 {% set sidebar_class = "visually-hidden" %}
+<a href="/items/addForm" class="btn btn-primary">
+  <i class="fas fa-plus"></i> Add Item
+</a>
 {% endblock %}
 
 {% block content %}
 <div class="card">
   <div class="card-header">
     <h5 class="mb-0">Items</h5>
-    <button class="btn btn-primary btn-sm float-end" disabled>Add Item</button>
   </div>
   <div class="card-body">
     <div class="table-responsive">
@@ -24,11 +26,25 @@
             <th>Category</th>
             <th>Reorder</th>
             <th>Batch Size</th>
-            <th>Actions</th>
           </tr>
         </thead>
         <tbody>
-          <!-- Item rows will be rendered here by backend logic -->
+          {% for item in items %}
+          <tr>
+            <td>{{ item.Item_Code }}</td>
+            <td>{{ item.item_desc or '' }}</td>
+            <td>{{ item.Group_Name or '' }}</td>
+            <td>{{ item.Unit or '' }}</td>
+            <td>{{ item.Current_Stock or 0 }}</td>
+            <td>{{ item.Category or '' }}</td>
+            <td>{{ item.Reorder_Level or 0 }}</td>
+            <td>{{ item.Batch_Size or 0 }}</td>
+          </tr>
+          {% else %}
+          <tr>
+            <td colspan="9" class="text-center text-muted">No items found</td>
+          </tr>
+          {% endfor %}
         </tbody>
       </table>
     </div>

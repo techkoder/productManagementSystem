@@ -31,11 +31,11 @@ class Item:
         """Create new item"""
         query = """
             INSERT INTO ITEM_MAST 
-            (Item_Code, Desc, Group_Name, Unit, Current_Stock, Category, Reorder_Level, Batch_Size)
+            (Item_Code, item_desc, Group_Name, Unit, Current_Stock, Category, Reorder_Level, Batch_Size)
             VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
         """
         params = (
-            item_data['item_code'], item_data['desc'], item_data['group_name'],
+            item_data['item_code'], item_data['item_desc'], item_data['group_name'],
             item_data['unit'], item_data['current_stock'], item_data['category'],
             item_data['reorder_level'], item_data['batch_size']
         )
