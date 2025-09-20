@@ -1,15 +1,41 @@
 {% extends "base.html" %}
-
 {% block title %}Items - Product Management System{% endblock %}
-
 {% block page_title %}Items Management{% endblock %}
-
 {% block page_actions %}
 {% set sidebar_class = "visually-hidden" %}
 {% endblock %}
+
 {% block content %}
+<div class="card">
+  <div class="card-header">
+    <h5 class="mb-0">Items</h5>
+    <button class="btn btn-primary btn-sm float-end" disabled>Add Item</button>
+  </div>
+  <div class="card-body">
+    <div class="table-responsive">
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th>Item Code</th>
+            <th>Description</th>
+            <th>Group</th>
+            <th>Unit</th>
+            <th>Stock</th>
+            <th>Category</th>
+            <th>Reorder</th>
+            <th>Batch Size</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Item rows will be rendered here by backend logic -->
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
 {% endblock %}
 
 {% block extra_js %}
-
+<!-- No JS code included as per your request -->
 {% endblock %}
