@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, jsonify
 from app.models.item import Item
-# from app.models.vendor import Vendor
+from app.models.vendor import Vendor
 from app.models.customer import Customer
 # from app.models.purchase_order import PurchaseOrder
 # from app.models.sales_order import SalesOrder
@@ -14,7 +14,7 @@ def dashboard():
     try:
         # Get dashboard statistics
         total_items = len(Item.get_all())
-        # total_vendors = len(Vendor.get_all())
+        total_vendors = len(Vendor.get_all())
         total_customers = len(Customer.get_all())
         low_stock_items = len(Item.get_low_stock_items())
         
@@ -24,7 +24,7 @@ def dashboard():
         
         dashboard_data = {
             'total_items': total_items,
-            # 'total_vendors': total_vendors,
+            'total_vendors': total_vendors,
             'total_customers': total_customers,
             'low_stock_items': low_stock_items,
             # 'recent_purchase_orders': recent_purchase_orders,
