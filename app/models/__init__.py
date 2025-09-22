@@ -16,13 +16,13 @@ def create_app(config_name='default'):
     from app.routes.main import main_bp
     from app.routes.items import items_bp
     # from app.routes.vendors import vendors_bp
-    # from app.routes.customers import customers_bp
+    from app.routes.customers import customer_bp
     # from app.routes.orders import orders_bp
     
     app.register_blueprint(main_bp)
     app.register_blueprint(items_bp)
     # app.register_blueprint(vendors_bp)
-    # app.register_blueprint(customers_bp)
+    app.register_blueprint(customer_bp)
     # app.register_blueprint(orders_bp)
     
     # Register teardown handler
