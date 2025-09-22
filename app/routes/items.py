@@ -8,13 +8,13 @@ def list_items():
     """List all items"""
     try:
         items = Item.get_all()
-        return render_template('items/list.html', items=items)
+        return render_template('items/list.html', items=items,add_url="/items/addForm",view_url="/items")
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
 @items_bp.route('/addForm')
 def add_itemsForm():
-    return render_template('forms/item_form.html')
+    return render_template('forms/item_form.html',add_url="/items/addForm",view_url="/items")
 
 @items_bp.route('/add',methods=['POST'])
 def add_items():
@@ -22,4 +22,4 @@ def add_items():
     print(Item_data)
     Item.create(Item_data)
     items = Item.get_all()
-    return render_template('items/list.html',items = items)
+    return render_template('items/list.html',items = items,add_url="/items/addForm",view_url="/items")

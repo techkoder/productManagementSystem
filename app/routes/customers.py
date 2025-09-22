@@ -22,4 +22,4 @@ def add_customer():
     print(Item_data)
     Customer.create(Item_data)
     customer = Customer.get_all()
-    return render_template('customers/list.html',customer = customer)
+    return render_template('customers/list.html',customer = customer,add_url="/customers/addForm",view_url="/customers")
