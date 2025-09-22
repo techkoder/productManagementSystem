@@ -1,16 +1,223 @@
 {% extends "base.html" %}
-
-{% block title %}{{ 'Edit' if order else 'Create' }} Sales Order - Product Management System{% endblock %}
-
+{% block title %}Sales Order - Product Management System{% endblock %}
 {% block extra_css %}
 {% set sidebar_class = "" %}
 {% endblock %}
-
-{% block page_title %}{{ 'Edit' if order else 'Create' }} Sales Order{% endblock %}
-
+{% block page_title %}{{ 'Edit' if sales_order else 'Add' }} Sales Order{% endblock %}
 {% block page_actions %}
-
 {% endblock %}
 
 {% block content %}
+<!-- Mini Navigation Bar for Form -->
+<div class="card mb-3">
+  <div class="card-body p-2">
+    <ul class="nav nav-pills nav-fill">
+      <li class="nav-item">
+        <a class="nav-link active" id="header-form-tab" data-bs-toggle="pill" href="#order-header" role="tab">
+          <i class="fas fa-file-alt me-1"></i>Order Header
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" id="trans-form-tab" data-bs-toggle="pill" href="#order-transactions" role="tab">
+          <i class="fas fa-list me-1"></i>Add Items
+        </a>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<!-- Tab Content -->
+<div class="tab-content" id="salesFormContent">
+  
+  <!-- Order Header Form -->
+  <div class="tab-pane fade show active" id="order-header" role="tabpanel">
+    <form method="POST" action="/sales/add">
+      <div class="card">
+        <div class="card-header">
+          <h5 class="mb-0">Sales Order Header</h5>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="mb-3">
+                <label class="form-label">Sales Order No<span class="text-danger">*</span></label>
+                <input type="text" name="sal_ord_no" class="form-control" value="{{ sales_order.sal_ord_no if sales_order else '' }}" required>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="mb-3">
+                <label class="form-label">Order Date<span class="text-danger">*</span></label>
+                <input type="date" name="order_date" class="form-control" value="{{ sales_order.order_date if sales_order else '' }}" required>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="mb-3">
+                <label class="form-label">Customer Code<span class="text-danger">*</span></label>
+                <input type="text" name="cust_code" class="form-control" value="{{ sales_order.cust_code if sales_order else '' }}" required>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="mb-3">
+                <label class="form-label">Status</label>
+                <select name="status" class="form-control">
+                  <option value="Pending">Pending</option>
+                  <option value="Confirmed">Confirmed</option>
+                  <option value="Processing">Processing</option>
+                  <option value="Shipped">Shipped</option>
+                  <option value="Delivered">Delivered</option>
+                  <option value="Cancelled">Cancelled</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <div class="mb-3">
+                <label class="form-label">Remarks</label>
+                <textarea name="remarks" class="form-control" rows="2" placeholder="Any special instructions or notes">{{ sales_order.remarks if sales_order else '' }}</textarea>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card-footer">
+          <button type="submit" class="btn btn-primary">Save Header</button>
+          <button type="button" class="btn btn-success" onclick="document.getElementById('trans-form-tab').click()">
+            Next: Add Items <i class="fas fa-arrow-right"></i>
+          </button>
+          <a href="/sales" class="btn btn-secondary">Cancel</a>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <!-- Order Transactions Form -->
+  <div class="tab-pane fade" id="order-transactions" role="tabpanel">
+    <form method="POST" action="/sales/addTransaction">
+      <div class="card">
+        <div class="card-header">
+          <h5 class="mb-0">Add Sales Order Items</h5>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-3">
+              <div class="mb-3">
+                <label class="form-label">Item Code<span class="text-danger">*</span></label>
+                <input type="text" name="item_code" class="form-control" required>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="mb-3">
+                <label class="form-label">Quantity<span class="text-danger">*</span></label>
+                <input type="number" name="order_qty" class="form-control" min="1" required>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="mb-3">
+                <label class="form-label">Unit Price</label>
+                <input type="number" name="unit_price" class="form-control" step="0.01" min="0">
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="mb-3">
+                <label class="form-label">Discount %</label>
+                <input type="number" name="discount_pct" class="form-control" step="0.01" min="0" max="100" placeholder="0.00">
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <div class="mb-3">
+                <label class="form-label">Item Notes</label>
+                <input type="text" name="item_notes" class="form-control" placeholder="Special instructions for this item">
+              </div>
+            </div>
+          </div>
+          <input type="hidden" name="sal_ord_no" value="{{ sales_order.sal_ord_no if sales_order else '' }}">
+        </div>
+        <div class="card-footer">
+          <button type="submit" class="btn btn-success">
+            <i class="fas fa-plus me-1"></i>Add Item
+          </button>
+          <button type="button" class="btn btn-primary" onclick="document.getElementById('header-form-tab').click()">
+            <i class="fas fa-arrow-left"></i> Back to Header
+          </button>
+          <a href="/sales" class="btn btn-secondary">Cancel</a>
+        </div>
+      </div>
+    </form>
+
+    <!-- Show existing items if editing -->
+    {% if sales_order and sales_transactions %}
+    <div class="card mt-3">
+      <div class="card-header">
+        <h6 class="mb-0">Current Items in this Order</h6>
+      </div>
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="table table-sm">
+            <thead>
+              <tr>
+                <th>Item Code</th>
+                <th>Quantity</th>
+                <th>Unit Price</th>
+                <th>Discount</th>
+                <th>Total</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for trans in sales_transactions %}
+              <tr>
+                <td>{{ trans.Item_Code }}</td>
+                <td>{{ trans.Order_Qty }}</td>
+                <td>{{ trans.Unit_Price or 0 }}</td>
+                <td>{{ trans.Discount_Pct or 0 }}%</td>
+                <td>{{ trans.Total_Price or 0 }}</td>
+                <td>
+                  <button class="btn btn-sm btn-danger">
+                    <i class="fas fa-trash"></i>
+                  </button>
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    {% endif %}
+  </div>
+
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+// Auto-calculate total price when unit price or quantity changes
+function calculateTotal() {
+  const qty = document.querySelector('input[name="order_qty"]').value || 0;
+  const price = document.querySelector('input[name="unit_price"]').value || 0;
+  const discount = document.querySelector('input[name="discount_pct"]').value || 0;
+  
+  const subtotal = qty * price;
+  const discountAmount = (subtotal * discount) / 100;
+  const total = subtotal - discountAmount;
+  
+  // You can display this calculated total if needed
+  console.log('Total:', total);
+}
+
+// Add event listeners for auto-calculation
+document.addEventListener('DOMContentLoaded', function() {
+  const qtyInput = document.querySelector('input[name="order_qty"]');
+  const priceInput = document.querySelector('input[name="unit_price"]');
+  const discountInput = document.querySelector('input[name="discount_pct"]');
+  
+  if (qtyInput) qtyInput.addEventListener('input', calculateTotal);
+  if (priceInput) priceInput.addEventListener('input', calculateTotal);
+  if (discountInput) discountInput.addEventListener('input', calculateTotal);
+});
+</script>
 {% endblock %}
