@@ -3,9 +3,6 @@
 {% block page_title %}Sales Orders Management{% endblock %}
 {% block page_actions %}
 {% set sidebar_class = "visually-hidden" %}
-<a href="/sales/addForm" class="btn btn-primary">
-  <i class="fas fa-plus"></i> Add Sales Order
-</a>
 {% endblock %}
 
 {% block content %}
@@ -54,7 +51,7 @@
                 <td><strong>{{ order.Sal_Ord_No }}</strong></td>
                 <td>{{ order.Order_Date or '' }}</td>
                 <td>{{ order.Cust_Code or '' }}</td>
-                <td>{{ order.Cust_Name or '' }}</td>
+                <td>{{ cust_names[loop.index0] if cust_names|length > loop.index0 else '' }}</td>
                 <td>{{ order.Total_Amount or 0 }}</td>
 
                   </span>
@@ -94,7 +91,6 @@
                 <th>Quantity</th>
                 <th>Unit Price</th>
                 <th>Total Price</th>
-                <th>Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -102,18 +98,10 @@
               <tr>
                 <td><strong>{{ trans.Sal_Ord_No }}</strong></td>
                 <td>{{ trans.Item_Code or '' }}</td>
-                <td>{{ trans.Item_Desc or '' }}</td>
+                <td>{{ item_desc[loop.index0] if item_desc|length > loop.index0 else '' }}</td>
                 <td>{{ trans.Order_Qty or 0 }}</td>
-                <td>{{ trans.Unit_Price or 0 }}</td>
-                <td>{{ trans.Total_Price or 0 }}</td>
-                <td>
-                  <button class="btn btn-sm btn-warning">
-                    <i class="fas fa-edit"></i>
-                  </button>
-                  <button class="btn btn-sm btn-danger">
-                    <i class="fas fa-trash"></i>
-                  </button>
-                </td>
+                <td>{{ trans.Order_Rate or 0 }}</td>
+                <td>{{ trans.Order_Value or 0 }}</td>
               </tr>
               {% else %}
               <tr>
