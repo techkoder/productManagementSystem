@@ -37,6 +37,7 @@ class SalesOrder:
         return db_service.execute_query(query, params)
 
     @classmethod
+
     def update(cls, sales_order_number, order_data):
         """Update an existing sales order header."""
         query = """
