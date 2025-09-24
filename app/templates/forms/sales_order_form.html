@@ -60,6 +60,20 @@
             </div>
             <div class="col-md-6">
               <div class="mb-3">
+                <label class="form-label">Item Code<span class="text-danger">*</span></label>
+                <input type="text" name="item_code" class="form-control" value="{{ sales_order.item_code if sales_order else '' }}" required>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="mb-3">
+                <label class="form-label">Order Quantity<span class="text-danger">*</span></label>
+                <input type="number" name="order_qty" class="form-control" value="{{ sales_order.order_qty if sales_order else '' }}" min="1" required>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="mb-3">
                 <label class="form-label">Status</label>
                 <select name="status" class="form-control">
                   <option value="Pending">Pending</option>
@@ -103,6 +117,12 @@
           <div class="row">
             <div class="col-md-3">
               <div class="mb-3">
+                <label class="form-label">Sales Order No<span class="text-danger">*</span></label>
+                <input type="text" name="sal_ord_no" class="form-control" value="{{ sales_order.sal_ord_no if sales_order else '' }}" required>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="mb-3">
                 <label class="form-label">Item Code<span class="text-danger">*</span></label>
                 <input type="text" name="item_code" class="form-control" required>
               </div>
@@ -119,6 +139,8 @@
                 <input type="number" name="unit_price" class="form-control" step="0.01" min="0">
               </div>
             </div>
+          </div>
+          <div class="row">
             <div class="col-md-3">
               <div class="mb-3">
                 <label class="form-label">Discount %</label>
@@ -191,33 +213,4 @@
   </div>
 
 </div>
-{% endblock %}
-
-{% block extra_js %}
-<script>
-// Auto-calculate total price when unit price or quantity changes
-function calculateTotal() {
-  const qty = document.querySelector('input[name="order_qty"]').value || 0;
-  const price = document.querySelector('input[name="unit_price"]').value || 0;
-  const discount = document.querySelector('input[name="discount_pct"]').value || 0;
-  
-  const subtotal = qty * price;
-  const discountAmount = (subtotal * discount) / 100;
-  const total = subtotal - discountAmount;
-  
-  // You can display this calculated total if needed
-  console.log('Total:', total);
-}
-
-// Add event listeners for auto-calculation
-document.addEventListener('DOMContentLoaded', function() {
-  const qtyInput = document.querySelector('input[name="order_qty"]');
-  const priceInput = document.querySelector('input[name="unit_price"]');
-  const discountInput = document.querySelector('input[name="discount_pct"]');
-  
-  if (qtyInput) qtyInput.addEventListener('input', calculateTotal);
-  if (priceInput) priceInput.addEventListener('input', calculateTotal);
-  if (discountInput) discountInput.addEventListener('input', calculateTotal);
-});
-</script>
 {% endblock %}

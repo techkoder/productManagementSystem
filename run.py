@@ -2,12 +2,15 @@
 
 # app = flask.Flask(__name__)
 
-# from flask import render_template
 
 from app import models
 import os
 
 app = models.create_app(os.environ.get('FLASK_CONFIG') or 'default')
+
+# @app.route('/sales')
+# def sales_orders():
+#     return render_template('forms/sales_order_form.html')
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=5000)
@@ -35,9 +38,7 @@ if __name__ == '__main__':
 # def purchase_orders():
 #     return render_template('forms/purchase_order_form.html')
 
-# @app.route('/sales')
-# def sales_orders():
-#     return render_template('forms/sales_order_form.html')
+
 
 # @app.route('/reports')
 # def reports():

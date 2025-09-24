@@ -1,7 +1,6 @@
 import mysql.connector
 from mysql.connector import Error
 from flask import current_app, g
-import logging
 
 class DatabaseService:
     def __init__(self):
