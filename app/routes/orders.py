@@ -1,5 +1,4 @@
-import imp
-from flask import Blueprint, render_template, request, jsonify
+from flask import Blueprint, render_template, request, jsonify , flash
 from app.models.sales_order import SalesOrder
 from app.models.customer import Customer
 from app.models.sales_order import SalesOrderTran
@@ -50,7 +49,7 @@ def add_sales_ordersForm():
 def add_sales_orders():
     sales_data = request.form
     SalesOrder.create(sales_data)
-    return render_template('forms/sales_order_form.html',add_url="/order/sales/addForm",view_url="/order/sales")
+    return render_template('forms/sales_order_form.html',add_url="/order/sales/addForm",view_url="/order/sales",delete_url="/order/deleteForm")
 
 @orders_bp.route('/sales/addTransaction',methods=['POST','GET'])
 def add_sales_Order_tran():
@@ -63,7 +62,32 @@ def add_sales_Order_tran():
     except (TypeError, ValueError):
         sales_tran_data['order_value'] = 0
     SalesOrderTran.create(sales_tran_data)
-    return render_template('forms/sales_order_form.html',add_url="/order/sales/addForm",view_url="/order/sales")
+    return render_template('forms/sales_order_form.html',add_url="/order/sales/addForm",view_url="/order/sales",delete_url="/order/deleteForm")
+
+
+    
+
+# @orders_bp.route('/sales/delete', methods=['POST','GET'])
+# def delete_sales_order():
+#     sal_ord_no = request.form
+#     try:
+#         SalesOrder.delete(sal_ord_no)
+#         return redirect(url_for('sales_orders.list_sales_orders'))
+#     except Exception as e:
+#         return jsonify({'error': str(e)}), 500
+
+# @orders_bp.route('/sales/deleteTransaction', methods=['POST','GET'])
+# def delete_sales_order_transaction():
+#     """Delete a single sales order transaction by order number and item code."""
+#     try:
+#         sal_ord_no = request.values.get('sal_ord_no')
+#         item_code = request.values.get('item_code')
+#         if not sal_ord_no or not item_code:
+#             return jsonify({'error': 'sal_ord_no and item_code are required'}), 400
+#         SalesOrderTran.delete_by_order_and_item(sal_ord_no, item_code)
+#         return redirect(url_for('sales_orders.list_sales_orders'))
+#     except Exception as e:
+#         return jsonify({'error': str(e)}), 500
 
 @orders_bp.route('/purchase')
 def listPurchase():
@@ -97,17 +121,18 @@ def listPurchase():
                            ven_names=ven_names,
                            item_desc=item_desc,
                            add_url="/order/purchase/purchaseForm",
-                           view_url="/order/purchase")
+                           view_url="/order/purchase",
+                           delete_url="/order/purchase/deleteForm")
 
 @orders_bp.route('/purchase/purchaseForm')
 def purchaseForm():
-    return render_template('forms/purchase_order_form.html',add_url="/order/purchase/purchaseForm",view_url="/order/purchase")
+    return render_template('forms/purchase_order_form.html',delete_url="/order/purchase/deleteForm",add_url="/order/purchase/purchaseForm",view_url="/order/purchase")
 
 @orders_bp.route('/purchase/add',methods=['POST','GET'])
 def add_purchase_order():
     data = request.form
     purchaseOrdersHead.create(data)
-    return render_template('forms/purchase_order_form.html',add_url="/order/purchase/purchaseForm",view_url="/order/purchase")
+    return render_template('forms/purchase_order_form.html',delete_url="/order/purchase/deleteForm",add_url="/order/purchase/purchaseForm",view_url="/order/purchase")
 
 @orders_bp.route('/purchase/addTransaction',methods=['POST','GET'])
 def add_purchase_Order_tran():
@@ -119,4 +144,14 @@ def add_purchase_Order_tran():
     except (TypeError, ValueError):
         pur_tran_data['order_value'] = 0
     purchaseOrderTran.create(pur_tran_data)
-    return render_template('forms/purchase_order_form.html',add_url="/order/purchase/purchaseForm",view_url="/order/purchase")
+    return render_template('forms/purchase_order_form.html',delete_url="/order/purchase/deleteForm",add_url="/order/purchase/purchaseForm",view_url="/order/purchase")
+
+@orders_bp.route('/purchase/deleteForm',methods=['POST','GET'])
+def deletePurchaseOrderForm():
+    return render_template('orders/purchase_delete.html',delete_url="/order/purchase/deleteForm",add_url="/order/purchase/purchaseForm",view_url="/order/purchase")
+
+@orders_bp.route('/purchase/delete', methods=['POST','GET'])
+def deletePurchaseOrder():
+    pur_ord_no = request.values.get('pur_ord_no')
+    purchaseOrdersHead.delete(pur_ord_no)
+    return render_template('orders/purchase_delete.html',delete_url="/order/purchase/deleteForm",add_url="/order/purchase/purchaseForm",view_url="/order/purchase")

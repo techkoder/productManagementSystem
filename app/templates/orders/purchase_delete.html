@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+{% block title %}Purchase Order - Product Management System{% endblock %}
+{% block extra_css %}
+{% set sidebar_class = "" %}
+{% endblock %}
+{% block page_title %}{{ 'Edit' if purchase_order else 'Add' }} Purchase Order{% endblock %}
+{% block page_actions %}
+{% endblock %}
+
+{% block content %}
+<!-- Mini Navigation Bar for Form -->
+<div class="card mb-3">
+  <div class="card-body p-2">
+    <ul class="nav nav-pills nav-fill">
+      <li class="nav-item">
+        <a class="nav-link active" id="header-form-tab" data-bs-toggle="pill" href="#order-header" role="tab">
+          <i class="fas fa-file-alt me-1"></i>delete purchase header
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" id="trans-form-tab" data-bs-toggle="pill" href="#order-transactions" role="tab">
+          <i class="fas fa-list me-1"></i>delete purchase transaction
+        </a>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<div class="tab-content" id="orderFormContent">
+  
+    <!-- Order Header Form -->
+    <div class="tab-pane fade show active" id="order-header" role="tabpanel">
+      <form method="POST" action="/order/purchase/delete">
+        <div class="card">
+          <div class="card-header">
+            <h5 class="mb-0">Delete Purchase Order</h5>
+          </div>
+          <div class="card-body">
+            <div class="row">
+              <div class="col-md-6">
+                <div class="mb-3">
+                  <label class="form-label">Purchase Order No<span class="text-danger">*</span></label>
+                  <input type="text" name="pur_ord_no" class="form-control" value="{{ purchase_order.pur_ord_no if purchase_order else '' }}" required>
+                </div>
+              </div>
+            </div>
+        </div>
+        <div class="card-footer">
+            <button type="submit" class="btn btn-primary">Delete Order</button>
+        </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="tab-pane fade" id="order-transactions" role="tabpanel">
+    <form method="POST" action="/order/purchase/addTransaction">
+    <div class="card">
+        <div class="card-header">
+          <h5 class="mb-0">Delete Item From Order</h5>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-4">
+              <div class="mb-3">
+                <label class="form-label">Purchase Order No<span class="text-danger">*</span></label>
+                <input type="text" name="pur_ord_no" class="form-control" value="{{ purchase_order.pur_ord_no if purchase_order else '' }}" required>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="mb-3">
+                <label class="form-label">Item Code<span class="text-danger">*</span></label>
+                <input type="text" name="item_code" class="form-control" required>
+              </div>
+            </div>
+        </div>
+        <div class="card-footer">
+            <button type="submit" class="btn btn-primary">Delete Order Item</button>
+        </div>
+      </div>
+    </form>
+  </div>
+{%endblock%}

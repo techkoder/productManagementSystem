@@ -146,3 +146,9 @@ class SalesOrderTran:
         """Delete all transaction lines for a sales order."""
         query = "DELETE FROM SAL_ORDERS_TRAN WHERE Sal_Ord_No = %s"
         return db_service.execute_query(query, (sales_order_number,))
+
+    @classmethod
+    def delete_by_order_and_item(cls, sales_order_number, item_code):
+        """Delete a transaction line by sales order number and item code."""
+        query = "DELETE FROM SAL_ORDERS_TRAN WHERE Sal_Ord_No = %s AND Item_Code = %s"
+        return db_service.execute_query(query, (sales_order_number, item_code))
