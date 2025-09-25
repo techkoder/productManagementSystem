@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block title %}Items - Product Management System{% endblock %}
+{% block extra_css %}
+{% set sidebar_class = "" %}
+{% endblock %}
+{% block page_title %}Remove Items{% endblock %}
+{% block content %}
+
+<form method="POST" action="/items/delete">
+    <div class="card">
+      <div class="card-header">
+        <h5 class="mb-0">Remove Items</h5>
+      </div>
+      <div class="card-body">
+        <div class="mb-3">
+          <label class="form-label">Item Code <span class="text-danger">*</span></label>
+          <input type="text" name="item_code" class="form-control"
+                 value="{{ Item.item_code if Item else '' }}" required>
+        </div>
+      </div>
+      <div class="card-footer">
+        <button type="submit" class="btn btn-danger">Remove Item</button>
+      </div>
+    </div>
+  </form>
+{%endblock%}
