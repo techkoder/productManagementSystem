@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+{% block title %}Sales Order - Product Management System{% endblock %}
+{% block extra_css %}
+{% set sidebar_class = "" %}
+{% endblock %}
+{% block page_title %}Delete Sales Order{% endblock %}
+{% block content %}
+
+<div class="card mb-3">
+  <div class="card-body p-2">
+    <ul class="nav nav-pills nav-fill">
+      <li class="nav-item">
+        <a class="nav-link active" id="header-form-tab" data-bs-toggle="pill" href="#order-header" role="tab">
+          <i class="fas fa-file-alt me-1"></i> Delete Sales Header
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" id="trans-form-tab" data-bs-toggle="pill" href="#order-transactions" role="tab">
+          <i class="fas fa-list me-1"></i> Delete Sales Transaction
+        </a>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<div class="tab-content" id="orderFormContent">
+
+  <!-- Order Header Form -->
+  <div class="tab-pane fade show active" id="order-header" role="tabpanel">
+    <form method="POST" action="/order/sales/delete">
+      <div class="card">
+        <div class="card-header">
+          <h5 class="mb-0">Delete Sales Order</h5>
+        </div>
+        <div class="card-body">
+          <div class="mb-3">
+            <label class="form-label">Sales Order No <span class="text-danger">*</span></label>
+            <input type="text" name="sal_ord_no" class="form-control"
+                   value="{{ purchase_order.pur_ord_no if purchase_order else '' }}" required>
+          </div>
+        </div>
+        <div class="card-footer">
+          <button type="submit" class="btn btn-danger">Delete Order</button>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <!-- Transaction Delete Form -->
+  <div class="tab-pane fade" id="order-transactions" role="tabpanel">
+    <form method="POST" action="/order/sales/deleteTransaction">
+      <div class="card">
+        <div class="card-header">
+          <h5 class="mb-0">Delete Item From Order</h5>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <label class="form-label">Sales Order No <span class="text-danger">*</span></label>
+              <input type="text" name="sal_ord_no" class="form-control" required>
+            </div>
+            <div class="col-md-6 mb-3">
+              <label class="form-label">Item Code <span class="text-danger">*</span></label>
+              <input type="text" name="item_code" class="form-control" required>
+            </div>
+          </div>
+        </div>
+        <div class="card-footer">
+          <button type="submit" class="btn btn-danger">Delete Order Item</button>
+        </div>
+      </div>
+    </form>
+  </div>
+
+</div>
+{% endblock %}
