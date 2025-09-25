@@ -31,7 +31,7 @@
   
   <!-- Order Header Form -->
   <div class="tab-pane fade show active" id="order-header" role="tabpanel">
-    <form method="POST" action="/purchase/add">
+    <form method="POST" action="/order/purchase/add">
       <div class="card">
         <div class="card-header">
           <h5 class="mb-0">Purchase Order Header</h5>
@@ -70,6 +70,14 @@
               </div>
             </div>
           </div>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="mb-3">
+                <label class="form-label">Order Quantity<span class="text-danger">*</span></label>
+                <input type="number" name="order_qty" class="form-control" value="{{ purchase_order.order_qty if purchase_order else '' }}" required>
+              </div>
+            </div>
+          </div>
         </div>
         <div class="card-footer">
           <button type="submit" class="btn btn-primary">Save Header</button>
@@ -84,13 +92,19 @@
 
   <!-- Order Transactions Form -->
   <div class="tab-pane fade" id="order-transactions" role="tabpanel">
-    <form method="POST" action="/purchase/addTransaction">
+    <form method="POST" action="/order/purchase/addTransaction">
       <div class="card">
         <div class="card-header">
           <h5 class="mb-0">Add Purchase Order Items</h5>
         </div>
         <div class="card-body">
           <div class="row">
+            <div class="col-md-4">
+              <div class="mb-3">
+                <label class="form-label">Purchase Order No<span class="text-danger">*</span></label>
+                <input type="text" name="pur_ord_no" class="form-control" value="{{ purchase_order.pur_ord_no if purchase_order else '' }}" required>
+              </div>
+            </div>
             <div class="col-md-4">
               <div class="mb-3">
                 <label class="form-label">Item Code<span class="text-danger">*</span></label>
@@ -106,11 +120,10 @@
             <div class="col-md-4">
               <div class="mb-3">
                 <label class="form-label">Unit Price</label>
-                <input type="number" name="unit_price" class="form-control" step="0.01">
+                <input type="number" name="order_rate" class="form-control" step="0.01">
               </div>
             </div>
           </div>
-          <input type="hidden" name="pur_ord_no" value="{{ purchase_order.pur_ord_no if purchase_order else '' }}">
         </div>
         <div class="card-footer">
           <button type="submit" class="btn btn-success">Add Item</button>

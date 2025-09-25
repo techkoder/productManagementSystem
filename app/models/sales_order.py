@@ -19,18 +19,17 @@ class SalesOrder:
     def create(cls, order_data):
         """Create a new sales order header.
 
-        Expected keys in order_data: sal_ord_no, order_qty, order_date, item_code, cust_code, sale_status (optional)
+        Expected keys in order_data: sal_ord_no, order_qty, order_date, cust_code, sale_status (optional)
         """
         query = """
             INSERT INTO SAL_ORDERS_HEAD 
-            (Sal_Ord_No, Order_Qty, Order_Date, Item_Code, Cust_Code, saleStatus)
-            VALUES (%s, %s, %s, %s, %s, %s)
+            (Sal_Ord_No, Order_Qty, Order_Date, Cust_Code, saleStatus)
+            VALUES (%s, %s, %s, %s, %s)
         """
         params = (
             order_data['sal_ord_no'],
             order_data['order_qty'],
             order_data['order_date'],
-            order_data['item_code'],
             order_data['cust_code'],
             order_data.get('sale_status', 'Pending')
         )
@@ -44,7 +43,6 @@ class SalesOrder:
             UPDATE SAL_ORDERS_HEAD
             SET Order_Qty = %s,
                 Order_Date = %s,
-                Item_Code = %s,
                 Cust_Code = %s,
                 saleStatus = %s
             WHERE Sal_Ord_No = %s
@@ -52,7 +50,6 @@ class SalesOrder:
         params = (
             order_data['order_qty'],
             order_data['order_date'],
-            order_data['item_code'],
             order_data['cust_code'],
             order_data.get('sale_status', 'Pending'),
             sales_order_number,

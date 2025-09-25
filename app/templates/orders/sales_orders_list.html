@@ -118,21 +118,3 @@
 </div>
 {% endblock %}
 
-{% block extra_js %}
-<script>
-function viewTransactions(orderNo) {
-  // Switch to transactions tab
-  document.getElementById('trans-tab').click();
-  
-  // Highlight the order row
-  const rows = document.querySelectorAll('#sales-transactions tbody tr');
-  rows.forEach(row => {
-    if (row.cells[0] && row.cells[0].textContent.trim() === orderNo) {
-      row.classList.add('table-warning');
-    } else {
-      row.classList.remove('table-warning');
-    }
-  });
-}
-</script>
-{% endblock %}

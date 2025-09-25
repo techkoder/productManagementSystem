@@ -3,12 +3,15 @@
 # app = flask.Flask(__name__)
 from app import models
 import os
-
+# from flask import render_template
 app = models.create_app(os.environ.get('FLASK_CONFIG') or 'default')
 
 # @app.route('/sales')
 # def sales_orders():
 #     return render_template('forms/sales_order_form.html')
+# @app.route('/purchase')
+# def purchase_orders():
+#     return render_template('forms/purchase_order_form.html')
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=5000)
@@ -32,9 +35,6 @@ if __name__ == '__main__':
 # def customers():
 #     return render_template('forms/customer_form.html')
 
-# @app.route('/purchase')
-# def purchase_orders():
-#     return render_template('forms/purchase_order_form.html')
 
 
 
