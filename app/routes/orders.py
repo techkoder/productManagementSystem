@@ -47,7 +47,7 @@ def add_sales_ordersForm():
 
 @orders_bp.route('/sales/add',methods=['POST','GET'])
 def add_sales_orders():
-    sales_data = request.form
+    sales_data = request.form.to_dict()
     SalesOrder.create(sales_data)
     return render_template('forms/sales_order_form.html',add_url="/order/sales/addForm",view_url="/order/sales",delete_url="/order/deleteForm")
 
@@ -130,7 +130,7 @@ def purchaseForm():
 
 @orders_bp.route('/purchase/add',methods=['POST','GET'])
 def add_purchase_order():
-    data = request.form
+    data = request.form.to_dict()
     purchaseOrdersHead.create(data)
     return render_template('forms/purchase_order_form.html',delete_url="/order/purchase/deleteForm",add_url="/order/purchase/purchaseForm",view_url="/order/purchase")
 
@@ -154,4 +154,11 @@ def deletePurchaseOrderForm():
 def deletePurchaseOrder():
     pur_ord_no = request.values.get('pur_ord_no')
     purchaseOrdersHead.delete(pur_ord_no)
+    return render_template('orders/purchase_delete.html',delete_url="/order/purchase/deleteForm",add_url="/order/purchase/purchaseForm",view_url="/order/purchase")
+
+@orders_bp.route('/purchase/deleteTransaction', methods=['POST','GET'])
+def deletePurchaseOrderItem():
+    pur_ord_no = request.values.get('pur_ord_no')
+    item_code = request.values.get('item_code')
+    purchaseOrderTran.delete_by_order_and_item(pur_ord_no,item_code)
     return render_template('orders/purchase_delete.html',delete_url="/order/purchase/deleteForm",add_url="/order/purchase/purchaseForm",view_url="/order/purchase")

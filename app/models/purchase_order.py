@@ -169,4 +169,7 @@ class purchaseOrderTran:
         query = "DELETE FROM PUR_ORDERS_TRAN WHERE Pur_Ord_No = %s"
         return db_service.execute_query(query, (purchase_order_number,))
 
-
+    @classmethod
+    def delete_by_order_and_item(cls, purchase_order_number, item_code):
+        query = "DELETE FROM PUR_ORDERS_TRAN WHERE Pur_Ord_No = %s AND Item_Code = %s"
+        return db_service.execute_query(query, (purchase_order_number, item_code))
