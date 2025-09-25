@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block title %}Customer - Product Management System{% endblock %}
+{% block extra_css %}
+{% set sidebar_class = "" %}
+{% endblock %}
+{% block page_title %}Remove Customer{% endblock %}
+{% block content %}
+
+<form method="POST" action="/customers/delete">
+    <div class="card">
+      <div class="card-header">
+        <h5 class="mb-0">Remove Customer</h5>
+      </div>
+      <div class="card-body">
+        <div class="mb-3">
+          <label class="form-label">Customer Code <span class="text-danger">*</span></label>
+          <input type="text" name="cust_code" class="form-control"
+                 value="{{ Customer.cust_code if Customer else '' }}" required>
+        </div>
+      </div>
+      <div class="card-footer">
+        <button type="submit" class="btn btn-danger">Remove Customer</button>
+      </div>
+    </div>
+  </form>
+{%endblock%}

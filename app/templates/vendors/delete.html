@@ -15,7 +15,7 @@
         <div class="mb-3">
           <label class="form-label">Vendor Code <span class="text-danger">*</span></label>
           <input type="text" name="ven_code" class="form-control"
-                 value="{{ purchase_order.pur_ord_no if purchase_order else '' }}" required>
+                 value="{{ Vendor.ven_code if Vendor else '' }}" required>
         </div>
       </div>
       <div class="card-footer">
