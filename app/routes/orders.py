@@ -16,16 +16,27 @@ def list_sales_orders():
         sales_transactions = SalesOrderTran.get_all()
         item_desc = []
         cust_names=[]
+        total_amount =[]
         for order in sales_orders:
+            print(order)
             cust_code = order['Cust_Code']
             customer = Customer.get_by_code(cust_code)
             cust_names.append(customer['Cust_Name'])
+            Amount =0
+            transactions=SalesOrderTran.get_by_id(order['Sal_Ord_No'])
+            print(transactions)
+            try:
+                for transaction in transactions:
+                    Amount+=transaction['Order_Value']
+            except:
+                    Amount =0
+            total_amount.append(Amount) 
         for transaction in sales_transactions:
             print(transaction)
             item_code = transaction['Item_Code']
             item = Item.get_by_code(item_code)
             item_desc.append(item['item_desc'])
-        return render_template('orders/sales_orders_list.html',sales_transactions=sales_transactions,cust_names=cust_names,sales_orders=sales_orders,item_desc=item_desc,add_url="/order/sales/addForm",view_url="/order/sales")
+        return render_template('orders/sales_orders_list.html',total_amount=total_amount,sales_transactions=sales_transactions,cust_names=cust_names,sales_orders=sales_orders,item_desc=item_desc,add_url="/order/sales/addForm",view_url="/order/sales")
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 

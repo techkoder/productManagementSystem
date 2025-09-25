@@ -52,7 +52,7 @@
                 <td>{{ order.Order_Date or '' }}</td>
                 <td>{{ order.Cust_Code or '' }}</td>
                 <td>{{ cust_names[loop.index0] if cust_names|length > loop.index0 else '' }}</td>
-                <td>{{ order.Total_Amount or 0 }}</td>
+                <td>{{ total_amount[loop.index0] if total_amount|length > loop.index0 else '' }}</td>
 
                   </span>
                 </td>
