@@ -53,8 +53,8 @@
                 <td><strong>{{ header.Pur_Ord_No }}</strong></td>
                 <td>{{ header.Order_Date or '' }}</td>
                 <td>{{ header.Ven_Code or '' }}</td>
-                <td>{{ header.Ven_Name or '' }}</td>
-                <td>{{ header.Total_Amount or 0 }}</td>
+                <td>{{ ven_names[loop.index0] if ven_names|length > loop.index0 else '' }}</td>
+                <td>{{ total_amount[loop.index0] if total_amount|length > loop.index0 else '' }}</td>
                 <td>
                   <span class="badge bg-{{ 'success' if header.Status == 'Completed' else 'warning' }}">
                     {{ header.Status or 'Pending' }}
@@ -102,10 +102,10 @@
               <tr>
                 <td><strong>{{ trans.Pur_Ord_No }}</strong></td>
                 <td>{{ trans.Item_Code or '' }}</td>
-                <td>{{ trans.Item_Desc or '' }}</td>
+                <td>{{ item_desc[loop.index0] if item_desc|length > loop.index0 else '' }}</td>
                 <td>{{ trans.Order_Qty or 0 }}</td>
-                <td>{{ trans.Unit_Price or 0 }}</td>
-                <td>{{ trans.Total_Price or 0 }}</td>
+                <td>{{ trans.Ord_Rate or 0 }}</td>
+                <td>{{ trans.Ord_Value or 0 }}</td>
               </tr>
               {% else %}
               <tr>

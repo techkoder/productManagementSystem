@@ -1,3 +1,4 @@
+import imp
 from flask import Blueprint, render_template, request, jsonify
 from app.models.sales_order import SalesOrder
 from app.models.customer import Customer
@@ -5,6 +6,7 @@ from app.models.sales_order import SalesOrderTran
 from app.models.item import Item
 from app.models.purchase_order import purchaseOrdersHead
 from app.models.purchase_order import purchaseOrderTran
+from app.models.vendor import Vendor
 
 orders_bp = Blueprint('sales_orders', __name__, url_prefix='/order')
 
@@ -67,7 +69,35 @@ def add_sales_Order_tran():
 def listPurchase():
     purchase_order= purchaseOrdersHead.get_all()
     purchase_order_items=purchaseOrderTran.get_all()
-    return render_template('orders/purchase_orders_list.html',purchase_order_items=purchase_order_items,purchase_order=purchase_order,add_url="/order/purchase/purchaseForm",view_url="/order/purchase")
+    ven_names = []
+    item_desc = []
+    total_amount = []
+    for order in purchase_order:
+        ven_code = order['Ven_Code']
+        vendors = Vendor.get_by_code(ven_code)
+        Amount =0
+        transactions=purchaseOrderTran.get_by_purchase_order(order['Pur_Ord_No'])
+        print(transactions)
+        try:
+            for transaction in transactions:
+                Amount+=transaction['Ord_Value']
+        except:
+            Amount =0
+        total_amount.append(Amount) 
+        ven_names.append(vendors['Ven_Name'])
+    for transaction in purchase_order_items:
+        print(transaction)
+        item_code = transaction['Item_Code']
+        item = Item.get_by_code(item_code)
+        item_desc.append(item['item_desc'])
+    return render_template('orders/purchase_orders_list.html'
+                           ,purchase_order_items=purchase_order_items,
+                           purchase_order=purchase_order,  
+                           total_amount=total_amount,
+                           ven_names=ven_names,
+                           item_desc=item_desc,
+                           add_url="/order/purchase/purchaseForm",
+                           view_url="/order/purchase")
 
 @orders_bp.route('/purchase/purchaseForm')
 def purchaseForm():
